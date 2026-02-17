@@ -1,0 +1,150 @@
+﻿IASis - Fork paralelo del sistema legado
+=======================================
+
+Fecha de creacion: 2026-02-16
+Ubicacion: d:\backsobral\Sistema\www\html\IASis
+
+Objetivo
+--------
+Crear una rama paralela tecnica para comenzar separacion de logica y vistas,
+sin reescribir masivamente el sistema, sin tocar el codigo original y sin
+modificar conexiones a base de datos.
+
+Que se hizo
+-----------
+1) Se genero una copia paralela del legado en:
+   - IASis\legacy\<modulo>\...
+
+2) Se genero estructura separada por archivo en:
+   - IASis\migrado\<modulo>\logica\...
+   - IASis\migrado\<modulo>\vistas\...
+
+3) Se dejo una entrada minima para ejecutar pares logica/vista:
+   - IASis\public\index.php
+   - IASis\app\bootstrap.php
+
+4) Se documento el proceso en:
+   - IASis\docs\reporte_migracion.md
+   - IASis\docs\reporte_migracion.csv
+
+Reglas respetadas
+-----------------
+- No se editaron archivos originales fuera de IASis.
+- No se cambiaron credenciales, hosts ni archivos de conexion de BD.
+- Se mantuvo la mayor parte del codigo, aplicando separacion automatica conservadora.
+
+Modulos incluidos
+-----------------
+- inasistencia
+- inasistenciaprueba
+- alumnos
+- docentes
+- preceptores
+- cargadocentes
+- estadistica
+- mesas
+- comedor
+- entrada
+- dbf2mysql
+- archivos
+- classes
+- mqtt
+- prueba
+- shell
+
+Notas importantes
+-----------------
+- La separacion fue automatica por deteccion de marcadores HTML (DOCTYPE/html/body).
+- En archivos donde PHP y HTML estan muy intercalados, parte de logica puede seguir
+  dentro de vistas por compatibilidad (sin reescritura funcional).
+- Esta base esta preparada para refactor incremental manual por modulo critico.
+
+Uso basico
+----------
+Ejemplo:
+  IASis\public\index.php?m=inasistencia&f=asistencia
+
+El parametro f es la ruta relativa dentro de logica/vistas, sin extension.
+
+Siguiente paso recomendado
+--------------------------
+Tomar 1 flujo critico (por ejemplo asistencia diaria) y hacer separacion manual fina
+(controller/service/repository/view) sobre los archivos ya ubicados en IASis\migrado.
+
+Avance manual aplicado
+----------------------
+Se completo un piloto de separacion manual fina para el flujo:
+- IASis\\migrado\\inasistencia\\logica\\asistencia.logic.php
+- IASis\\migrado\\inasistencia\\vistas\\asistencia.view.php
+
+Referencia tecnica:
+- IASis\\docs\\piloto_asistencia.md
+
+Nuevo avance manual
+-------------------
+Segundo piloto completado:
+- IASis\\migrado\\inasistencia\\logica\\alumnosausentes.logic.php
+- IASis\\migrado\\inasistencia\\vistas\\alumnosausentes.view.php
+
+Se agrego plantilla de trabajo para siguientes flujos:
+- IASis\\migrado\\inasistencia\\_plantilla\\README.txt
+
+Cierre de fase inicial
+----------------------
+Se completa la fase inicial de IASis con 3 pilotos manuales separados:
+- asistencia
+- alumnosausentes
+- boletin
+
+Documentacion de cierre:
+- IASis\\docs\\estado_final_fase_inicial.md
+
+Etapa actual completada
+-----------------------
+Bloque de notificaciones finalizado en IASis:
+- notificaciones
+- ver_notificaciones
+- notificacionausente
+
+Documentos de cierre:
+- IASis\\docs\\fase_notificaciones_completada.md
+- IASis\\docs\\cierre_general_iasis.md
+
+Nuevos bloques migrados
+-----------------------
+Se agregaron 3 flujos migrados manualmente:
+- asistenciaef
+- ver_notas
+- ver_notastodas
+
+Referencia:
+- IASis\\docs\\bloques_migrados_asistenciaef_notas.md
+
+Ronda local agregada
+--------------------
+Se completo ronda de estabilizacion local para demo:
+- ajuste de enlaces legacy en vistas clave
+- matriz de pruebas
+- guion demo del miercoles
+
+Ver docs:
+- IASis\\docs\\ronda_estabilizacion_local_01.md
+- IASis\\docs\\matriz_pruebas_iasis.md
+- IASis\\docs\\guion_demo_miercoles.md
+
+Ronda local 02 completada
+-------------------------
+Ajustes de robustez para demo local:
+- rutas de assets
+- enlaces legacy
+- control de parametros en notificacionausente
+
+Documento:
+- IASis\\docs\\ronda_estabilizacion_local_02.md
+
+Base local minima agregada
+--------------------------
+Se agregaron scripts para levantar una BD de demo sin importar la del sistema original:
+- IASis\\sql\\local_schema_min.sql
+- IASis\\sql\\local_seed_min.sql
+- IASis\\docs\\setup_local_db.md

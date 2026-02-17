@@ -1,0 +1,24 @@
+<?PHP
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title></title>
+	<link rel="stylesheet" href="menu_style.css" type="text/css" />
+</head>
+<body>
+
+	<div class="menu">
+		<ul>
+					<li><a href="menu.php" >Men&uacute; PPal.</a></li>
+		  			<li><a href="add_materias2.php" id="current">Anotarme a las previas</a></li>
+					<li><a href="ver_hs_todos.php" id="current">Ver a cuales me anote</a></li>
+					<li><a href="logout.php">Salir</a></li>
+		</ul>
+	</div>
+
+</body>
+</html>

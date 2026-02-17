@@ -1,0 +1,19 @@
+<?php
+// Inicio la sesión
+session_start();
+header("Cache-control: private"); // Arregla IE 6
+
+ // descoloco todas la variables de la sesión
+ session_unset();
+
+ // Destruyo la sesión
+ session_destroy();
+  
+ $_POST = array();
+
+
+ //Y me voy al inicio
+ header("Location: http://docentes.colegiosobral.edu.ar");
+     echo "<html></html>";
+   exit; 
+?> 

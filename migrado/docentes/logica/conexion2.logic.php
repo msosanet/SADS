@@ -1,0 +1,1 @@
+﻿<?php //Configuracion de la conexion a base de datos $bd_host = "localhost";  $bd_usuario = "fgoicoechea";  $bd_password = "sobral2011";  $bd_base = "base_sobral";  $con = mysql_connect($bd_host, $bd_usuario, $bd_password);  mysql_select_db($bd_base, $con); ?>

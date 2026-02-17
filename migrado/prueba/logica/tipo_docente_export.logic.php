@@ -1,0 +1,283 @@
+﻿<?php 
+@ini_set("display_errors","1");
+@ini_set("display_startup_errors","1");
+include("include/dbcommon.php");
+include("classes/searchclause.php");
+session_cache_limiter("none");
+
+include("include/tipo_docente_variables.php");
+
+if(!@$_SESSION["UserID"])
+{ 
+	$_SESSION["MyURL"]=$_SERVER["SCRIPT_NAME"]."?".$_SERVER["QUERY_STRING"];
+	header("Location: login.php?message=expired"); 
+	return;
+}
+if(!CheckSecurity(@$_SESSION["_".$strTableName."_OwnerID"],"Export"))
+{
+	echo "<p>"."No tiene permiso para acceder a esta tabla"."<a href=\"login.php\">"."Regresar a la página de conexión"."</a></p>";
+	return;
+}
+
+$layout = new TLayout("export","PurificOrange","MobileOrange");
+$layout->blocks["top"] = array();
+$layout->containers["export"] = array();
+
+$layout->containers["export"][] = array("name"=>"exportheader","block"=>"","substyle"=>2);
+
+
+$layout->containers["export"][] = array("name"=>"exprange_header","block"=>"rangeheader_block","substyle"=>3);
+
+
+$layout->containers["export"][] = array("name"=>"exprange","block"=>"range_block","substyle"=>1);
+
+
+$layout->containers["export"][] = array("name"=>"expoutput_header","block"=>"","substyle"=>3);
+
+
+$layout->containers["export"][] = array("name"=>"expoutput","block"=>"","substyle"=>1);
+
+
+$layout->containers["export"][] = array("name"=>"expbuttons","block"=>"","substyle"=>2);
+
+
+$layout->skins["export"] = "fields";
+$layout->blocks["top"][] = "export";$page_layouts["tipo_docente_export"] = $layout;
+
+
+// Modify query: remove blob fields from fieldlist.
+// Blob fields on an export page are shown using imager.php (for example).
+// They don't need to be selected from DB in export.php itself.
+//$gQuery->ReplaceFieldsWithDummies(GetBinaryFieldsIndices());
+
+//	Before Process event
+if($eventObj->exists("BeforeProcessExport"))
+	$eventObj->BeforeProcessExport($conn);
+
+$strWhereClause = "";
+$strHavingClause = "";
+$strSearchCriteria = "and";
+$selected_recs = array();
+$options = "1";
+
+header("Expires: Thu, 01 Jan 1970 00:00:01 GMT"); 
+include('include/xtempl.php');
+include('classes/runnerpage.php');
+$xt = new Xtempl();
+$id = postvalue("id") != "" ? postvalue("id") : 1;
+
+$phpVersion = (int)substr(phpversion(), 0, 1); 
+if($phpVersion > 4)
+{
+	include("include/export_functions.php");
+	$xt->assign("groupExcel", true);
+}
+else
+	$xt->assign("excel", true);
+
+//array of params for classes
+$params = array("pageType" => PAGE_EXPORT, "id" => $id, "tName" => $strTableName);
+$params["xt"] = &$xt;
+if(!$eventObj->exists("ListGetRowCount") && !$eventObj->exists("ListQuery"))
+	$params["needSearchClauseObj"] = false;
+$pageObject = new RunnerPage($params);
+
+if (@$_REQUEST["a"]!="")
+{
+	$options = "";
+	$sWhere = "1=0";	
+
+//	process selection
+	$selected_recs = array();
+	if (@$_REQUEST["mdelete"])
+	{
+		foreach(@$_REQUEST["mdelete"] as $ind)
+		{
+			$keys=array();
+			$keys["codigo"] = refine($_REQUEST["mdelete1"][mdeleteIndex($ind)]);
+			$selected_recs[] = $keys;
+		}
+	}
+	elseif(@$_REQUEST["selection"])
+	{
+		foreach(@$_REQUEST["selection"] as $keyblock)
+		{
+			$arr=explode("&",refine($keyblock));
+			if(count($arr)<1)
+				continue;
+			$keys = array();
+			$keys["codigo"] = urldecode($arr[0]);
+			$selected_recs[] = $keys;
+		}
+	}
+
+	foreach($selected_recs as $keys)
+	{
+		$sWhere = $sWhere . " or ";
+		$sWhere.=KeyWhere($keys);
+	}
+
+
+	$strSQL = gSQLWhere($sWhere);
+	$strWhereClause=$sWhere;
+	
+	$_SESSION[$strTableName."_SelectedSQL"] = $strSQL;
+	$_SESSION[$strTableName."_SelectedWhere"] = $sWhere;
+	$_SESSION[$strTableName."_SelectedRecords"] = $selected_recs;
+}
+
+if ($_SESSION[$strTableName."_SelectedSQL"]!="" && @$_REQUEST["records"]=="") 
+{
+	$strSQL = $_SESSION[$strTableName."_SelectedSQL"];
+	$strWhereClause = @$_SESSION[$strTableName."_SelectedWhere"];
+	$selected_recs = $_SESSION[$strTableName."_SelectedRecords"];
+}
+else
+{
+	$strWhereClause = @$_SESSION[$strTableName."_where"];
+	$strHavingClause = @$_SESSION[$strTableName."_having"];
+	$strSearchCriteria = @$_SESSION[$strTableName."_criteria"];
+	$strSQL=gSQLWhere($strWhereClause, $strHavingClause, $strSearchCriteria);
+}
+
+$mypage = 1;
+if(@$_REQUEST["type"])
+{
+//	order by
+	$strOrderBy = $_SESSION[$strTableName."_order"];
+	if(!$strOrderBy)
+		$strOrderBy = $gstrOrderBy;
+	$strSQL.=" ".trim($strOrderBy);
+
+	$strSQLbak = $strSQL;
+	if($eventObj->exists("BeforeQueryExport"))
+		$eventObj->BeforeQueryExport($strSQL,$strWhereClause,$strOrderBy);
+//	Rebuild SQL if needed
+	if($strSQL!=$strSQLbak)
+	{
+//	changed $strSQL - old style	
+		$numrows=GetRowCount($strSQL);
+	}
+	else
+	{
+		$strSQL = gSQLWhere($strWhereClause,$strHavingClause, $strSearchCriteria);
+		$strSQL.=" ".trim($strOrderBy);
+		$rowcount=false;
+		if($eventObj->exists("ListGetRowCount"))
+		{
+			$masterKeysReq=array();
+			for($i = 0; $i < count($pageObject->detailKeysByM); $i ++)
+				$masterKeysReq[]=$_SESSION[$strTableName."_masterkey".($i + 1)];
+			$rowcount=$eventObj->ListGetRowCount($pageObject->searchClauseObj,$_SESSION[$strTableName."_mastertable"],$masterKeysReq,$selected_recs);
+		}
+		if($rowcount!==false)
+			$numrows=$rowcount;
+		else
+			$numrows=gSQLRowCount($strWhereClause,$strHavingClause,$strSearchCriteria);
+	}
+	LogInfo($strSQL);
+
+//	 Pagination:
+
+	$nPageSize = 0;
+	if(@$_REQUEST["records"]=="page" && $numrows)
+	{
+		$mypage = (integer)@$_SESSION[$strTableName."_pagenumber"];
+		$nPageSize = (integer)@$_SESSION[$strTableName."_pagesize"];
+		
+		if(!$nPageSize)
+			$nPageSize = GetTableData($strTableName,".pageSize",0);
+				
+		if($nPageSize<0)
+			$nPageSize = 0;
+			
+		if($nPageSize>0)
+		{
+			if($numrows<=($mypage-1)*$nPageSize)
+				$mypage = ceil($numrows/$nPageSize);
+		
+			if(!$mypage)
+				$mypage = 1;
+			
+					$strSQL.=" limit ".(($mypage-1)*$nPageSize).",".$nPageSize;
+		}
+	}
+	$listarray = false;
+	if($eventObj->exists("ListQuery"))
+		$listarray = $eventObj->ListQuery($pageObject->searchClauseObj,$_SESSION[$strTableName."_arrFieldForSort"],$_SESSION[$strTableName."_arrHowFieldSort"],$_SESSION[$strTableName."_mastertable"],$masterKeysReq,$selected_recs,$nPageSize,$mypage);
+	if($listarray!==false)
+		$rs = $listarray;
+	elseif($nPageSize>0)
+	{
+					$rs = db_query($strSQL,$conn);
+	}
+	else
+		$rs = db_query($strSQL,$conn);
+
+	if(!ini_get("safe_mode"))
+		set_time_limit(300);
+	
+	if(substr(@$_REQUEST["type"],0,5)=="excel")
+	{
+//	remove grouping
+		$locale_info["LOCALE_SGROUPING"]="0";
+		$locale_info["LOCALE_SMONGROUPING"]="0";
+				if($phpVersion > 4)
+			ExportToExcel();
+		else
+			ExportToExcel_old();
+	}
+	else if(@$_REQUEST["type"]=="word")
+	{
+		ExportToWord();
+	}
+	else if(@$_REQUEST["type"]=="xml")
+	{
+		ExportToXML();
+	}
+	else if(@$_REQUEST["type"]=="csv")
+	{
+		$locale_info["LOCALE_SGROUPING"]="0";
+		$locale_info["LOCALE_SDECIMAL"]=".";
+		$locale_info["LOCALE_SMONGROUPING"]="0";
+		$locale_info["LOCALE_SMONDECIMALSEP"]=".";
+		ExportToCSV();
+	}
+	db_close($conn);
+	return;
+}
+
+// add button events if exist
+$pageObject->addButtonHandlers();
+
+if($options)
+{
+	$xt->assign("rangeheader_block",true);
+	$xt->assign("range_block",true);
+}
+
+$xt->assign("exportlink_attrs", 'id="saveButton'.$pageObject->id.'"');
+
+$pageObject->body["begin"] .="<script type=\"text/javascript\" src=\"include/loadfirst.js\"></script>\r\n";
+$pageObject->body["begin"] .= "<script type=\"text/javascript\" src=\"include/lang/".getLangFileName(mlang_getcurrentlang()).".js\"></script>";
+
+$pageObject->fillSetCntrlMaps();
+$pageObject->body['end'] .= '<script>';
+$pageObject->body['end'] .= "window.controlsMap = ".my_json_encode($pageObject->controlsHTMLMap).";";
+$pageObject->body['end'] .= "window.settings = ".my_json_encode($pageObject->jsSettings).";";
+$pageObject->body['end'] .= '</script>';
+$pageObject->body["end"] .= "<script language=\"JavaScript\" src=\"include/runnerJS/RunnerAll.js\"></script>\r\n";
+$pageObject->addCommonJs();
+
+$pageObject->body["end"] .= "<script>".$pageObject->PrepareJS()."</script>";
+$xt->assignbyref("body",$pageObject->body);
+
+$xt->display("tipo_docente_export.htm");
+
+function ExportToExcel_old()
+{
+	global $cCharset;
+	header("Content-Type: application/vnd.ms-excel");
+	header("Content-Disposition: attachment;Filename=tipo_docente.xls");
+
+	echo "
