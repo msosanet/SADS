@@ -1,4 +1,4 @@
-﻿<?PHP
+<?PHP
 session_start();
 if ($_SESSION['estado']==1) {
 
@@ -11,7 +11,7 @@ $division = isset($_GET['curso']) ? substr($_GET['curso'], 1) : 1;
 $_cd = $curso . $division;
 
 // Make a MySQL Connection
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("base_sobral") or die(mysql_error());
 
 $sql = "SELECT * FROM curso2 WHERE habilitado='1' AND idcurso != 999 ORDER BY curso,division ASC";
@@ -31,5 +31,6 @@ echo "</select>";*/
 
 
 ?>
+
 
 

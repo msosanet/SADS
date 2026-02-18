@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 
 <head>
@@ -60,9 +60,9 @@ include 'header.php';
     #customers {
         width: 100%; /* Ancho ajustable */
         border-collapse: collapse;
-        font-size: 14px; /* TamaÃ±o de fuente mÃ¡s pequeÃ±o */
+        font-size: 14px; /* Tamaño de fuente más pequeño */
         margin: 0 auto;
-        max-width: 80%; /* Ajusta esto segÃºn sea necesario */
+        max-width: 80%; /* Ajusta esto según sea necesario */
     }
     #customers th, #customers td {
         border: 1px solid #ddd;
@@ -115,7 +115,7 @@ echo "</table></div>";
 
 	
 // Make a MySQL Connection
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("base_sobral") or die(mysql_error());
 
 $con = conectar ();
@@ -375,3 +375,4 @@ echo "<td align='center' bgcolor='$color'>$porcentaje</td>";
 
 
 ?>
+

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 
 <head>
@@ -75,7 +75,7 @@ echo "</table></div>";
 
 	
 // Make a MySQL Connection
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("base_sobral") or die(mysql_error());
 
 $con = conectar ();
@@ -158,20 +158,20 @@ if (isset($_GET['mostrar'])) {
     $day = date('d');
     $mec = date('m'); // Mes en curso
 
-    $days = cal_days_in_month(CAL_GREGORIAN, $mess, $year); // Cantidad de dÃ­as del mes seleccionado
+    $days = cal_days_in_month(CAL_GREGORIAN, $mess, $year); // Cantidad de días del mes seleccionado
 
     echo "<br><br><br><br>";
     echo "<h2>PLANILLA DE ASISTENCIA $mess-$year</h2>";
-    echo "<h3>Cantidad de dÃ­as del mes: $days </h3>";
+    echo "<h3>Cantidad de días del mes: $days </h3>";
 
     $re = $mec - $mess;
 
     if ($re == 0) {
-        $days = date('d'); // Si estamos en el mes en curso, solo recorre hasta los dÃ­as que hayan pasado
+        $days = date('d'); // Si estamos en el mes en curso, solo recorre hasta los días que hayan pasado
     }
 
     if ($re < 0) {
-        $days = 0; // Si el mes en curso es mayor, no busca nada porque todavÃ­a no deberÃ­a haber novedades
+        $days = 0; // Si el mes en curso es mayor, no busca nada porque todavía no debería haber novedades
     }
 ?>
 
@@ -239,7 +239,7 @@ if (isset($_GET['mostrar'])) {
                     echo "<td bgcolor='#f0f8ff'>D</td>";
                 }
 
-                if ($dia == 6) { // SÃ¡bado
+                if ($dia == 6) { // Sábado
                     $flag = 1;
                     echo "<td bgcolor='#f0f8ff'>S</td>";
                 }
@@ -320,3 +320,4 @@ if (isset($_GET['mostrar'])) {
 
 
 ?>
+

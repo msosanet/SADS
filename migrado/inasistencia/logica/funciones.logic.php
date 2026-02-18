@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 
 
@@ -172,7 +172,7 @@ function consultahorario($dia,$materia,$es,$docente)
 
 /*function promedio($cual,$quien,$ano)
 		{
-			$linkcalif2 = mysqli_connect("localhost", "root", "msi2010", "calificadores") or die ("ERROR!!!"); 
+			$linkcalif2 = mysqli_connect("localhost", "root", "", "calificadores") or die ("ERROR!!!"); 
 			$sqlprom="SELECT AVG(n.valor) as pr FROM calificador2 c,notas n WHERE c.nota=n.id AND c.dni='$quien' AND c.idnota='$cual' and c.nota!='0' AND c.nota!='1001' AND c.anio='$ano'";
 			//echo $sqlprom;
 			$resultprom = mysqli_query ($linkcalif2,$sqlprom);
@@ -185,7 +185,7 @@ function consultahorario($dia,$materia,$es,$docente)
 function obtenernota($alumno,$cualnota,$curso,$materia)
 	{		
 			
-			$linkcalif2 = mysqli_connect("localhost", "root", "msi2010", "calificadores") or die ("ERROR!!!"); 
+			$linkcalif2 = mysqli_connect("localhost", "root", "", "calificadores") or die ("ERROR!!!"); 
 			if($linkcalif2 == false){
 			die("ERROR: Could not connect. " . mysqli_connect_error());
 			}
@@ -224,3 +224,4 @@ function obtenernota($alumno,$cualnota,$curso,$materia)
 				return $colormat;
 			 }*/
 ?>
+

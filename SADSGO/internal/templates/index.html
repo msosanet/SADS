@@ -1,0 +1,33 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>IASis Go - Pilotos</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; background: #f5f5f5; }
+.container { width: 980px; margin: 24px auto; background: #fff; padding: 20px; border: 1px solid #ddd; }
+ul { line-height: 1.8; }
+code { background: #f1f1f1; padding: 2px 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>IASis Go - Pilotos Disponibles</h2>
+  <ul>
+    <li><a href="/?m=inasistencia&f=asistencia">inasistencia/asistencia</a></li>
+    <li><a href="/?m=inasistencia&f=alumnosausentes">inasistencia/alumnosausentes</a></li>
+    <li><a href="/?m=inasistencia&f=boletin">inasistencia/boletin</a></li>
+    <li><a href="/?m=inasistencia&f=notificaciones">inasistencia/notificaciones</a></li>
+    <li><a href="/?m=inasistencia&f=ver_notificaciones">inasistencia/ver_notificaciones</a></li>
+    <li><a href="/?m=inasistencia&f=notificacionausente">inasistencia/notificacionausente</a></li>
+    <li><a href="/?m=inasistencia&f=notificacionausente&dnix=30111222&fechaxxx=2026-02-16&materiax=Matematica&cursox=1A&turnox=M&tipox=A&vistax=N">inasistencia/notificacionausente (ejemplo)</a></li>
+    <li><a href="/?m=inasistencia&f=asistenciaef">inasistencia/asistenciaef</a></li>
+    <li><a href="/?m=inasistencia&f=ver_notas">inasistencia/ver_notas</a></li>
+    <li><a href="/?m=inasistencia&f=ver_notastodas">inasistencia/ver_notastodas</a></li>
+  </ul>
+  <p>Uso manual: <code>/?m=&lt;modulo&gt;&f=&lt;funcion&gt;</code></p>
+</div>
+</body>
+</html>
+{{end}}

@@ -1,7 +1,7 @@
-﻿<?
+<?
 include 'conexion.php';
 
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("sid") or die(mysql_error());
 
 $con = conectar ();
@@ -22,3 +22,4 @@ echo $directoryName;
 
 }
 ?>
+

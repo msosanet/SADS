@@ -1,5 +1,5 @@
-﻿<?PHP
-$linkcalif2 = mysqli_connect("localhost", "root", "msi2010", "calificadores") or die ("ERROR!!!"); 
+<?PHP
+$linkcalif2 = mysqli_connect("localhost", "root", "", "calificadores") or die ("ERROR!!!"); 
 $sqlplazoxmateria="SELECT DISTINCT c.curso, c.materia, c2.division, c2.curso AS cursox FROM calificador2 c JOIN curso2 c2 ON c.curso = c2.idcurso WHERE idnota = '7' AND anio = '2023'";
 $resultplazoxmat = mysqli_query ($linkcalif2,$sqlplazoxmateria);
 
@@ -10,3 +10,4 @@ while ($fila2 = mysqli_fetch_array($resultplazoxmat))
 		
 		}
 ?>
+

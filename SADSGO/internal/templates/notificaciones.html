@@ -1,0 +1,49 @@
+{{define "notificaciones"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Notificaciones (SADSGO)</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+.wrapper { width: 980px; margin: 0 auto; }
+.formbox { width: 70%; border: 1px solid #c0c0c0; padding: 12px; background: #f9f9f9; }
+.error { color: #b00020; }
+.ok { background: #e8f5e9; border: 1px solid #66bb6a; padding: 8px; }
+textarea { width: 100%; }
+</style>
+</head>
+<body>
+<div class="wrapper" align="center">
+  <h2>Notificaciones</h2>
+
+  {{if .Errores}}
+    <div class="error">
+      {{range .Errores}}
+        <p>{{.}}</p>
+      {{end}}
+    </div>
+  {{end}}
+
+  {{if .Guardado}}
+    <div class="ok">
+      Notificacion N&deg; {{.NotificacionNumero}} / {{.NotificacionAnio}} guardada.
+      <br>
+      <a href="/?m=inasistencia&f=ver_notificaciones&descripcion={{urlquery .Asunto}}">Ir al listado filtrado</a>
+    </div>
+    <br>
+  {{end}}
+
+  <form method="post" action="/?m=inasistencia&f=notificaciones" class="formbox">
+    <label>Descripcion de la notificacion:</label>
+    <br><br>
+    <textarea name="asunto" rows="3" maxlength="200">{{.Asunto}}</textarea>
+    <br><br>
+    <div>A&ntilde;o: {{.Anio}}</div>
+    <br>
+    <input type="submit" name="submitx" value="Guardar" />
+  </form>
+</div>
+</body>
+</html>
+{{end}}

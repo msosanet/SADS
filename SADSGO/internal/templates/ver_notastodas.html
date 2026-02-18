@@ -1,0 +1,44 @@
+{{define "ver_notastodas"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Ver Todas las Notas (SADSGO)</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+.wrapper { width: 980px; margin: 0 auto; }
+table { border-collapse: collapse; width: 95%; }
+th, td { border: 1px solid #c0c0c0; padding: 6px; }
+th { background: #808080; color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrapper" align="center">
+  <h2>Buscar Nota por Asunto</h2>
+  <form method="get" action="/">
+    <input type="hidden" name="m" value="inasistencia" />
+    <input type="hidden" name="f" value="ver_notastodas" />
+    <input type="text" name="descripcion" size="35" maxlength="80" value="{{.Descripcion}}" />
+    <input type="submit" value="Buscar" name="muestra2" />
+  </form>
+
+  {{if .Buscar}}
+  <br>
+  <table>
+    <tr>
+      <th>Num. Nota</th><th>A&ntilde;o</th><th>Asunto</th><th>Responsable</th>
+    </tr>
+    {{range .Notas}}
+      <tr>
+        <td align="center">{{.Codigo}}</td>
+        <td align="center">{{.Anio}}</td>
+        <td>{{.Descripcion}}</td>
+        <td align="center">{{.Agente}}</td>
+      </tr>
+    {{end}}
+  </table>
+  {{end}}
+</div>
+</body>
+</html>
+{{end}}

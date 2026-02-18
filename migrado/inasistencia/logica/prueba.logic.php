@@ -1,7 +1,7 @@
-﻿<?php
+<?php
 header("Content-type: application/vnd.ms-excel" ) ;
 header("Content-Disposition: attachment; filename=archivo.xls" ) ;
-	mysql_connect("localhost", "root", "msi2010");
+	mysql_connect("localhost", "root", "");
 	mysql_select_db("sid");
 
 $desde=$_GET["desde"];
@@ -27,3 +27,4 @@ echo "</tr>";
 }
 echo "</table>";
 ?> 
+

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 
 <head>
@@ -54,7 +54,7 @@ if ($_SESSION['valor']==3) include 'menuppal3.php';
 <?
 /*
 // Make a MySQL Connection
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("base_sobral") or die(mysql_error());    */
 
 $con = conectar ();
@@ -455,4 +455,5 @@ foreach ($_GET['ausentes'] as $checkbox)
 echo "</form>";
 
 }?>
+
 

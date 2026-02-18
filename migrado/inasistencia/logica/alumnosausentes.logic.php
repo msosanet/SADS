@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -19,7 +19,7 @@ if (function_exists('conectar')) {
 }
 
 // Se conserva la conexion legacy sin cambios funcionales.
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("sid") or die(mysql_error());
 
 function iasis_ausentes_fetch_por_fecha($fecha)
@@ -43,3 +43,4 @@ function iasis_ausentes_fetch_por_fecha($fecha)
 }
 
 $iasisAusentes = iasis_ausentes_fetch_por_fecha($iasisFecha);
+

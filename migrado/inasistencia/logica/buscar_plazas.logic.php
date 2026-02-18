@@ -1,9 +1,9 @@
-﻿<?php
-$conexion = mysql_connect("localhost", "root", "msi2010");
+<?php
+$conexion = mysql_connect("localhost", "root", "");
 mysql_select_db("sid", $conexion);
 
 $busqueda = $_GET['busqueda'];
-$activos = isset($_GET['activos']) ? $_GET['activos'] : '0';  // Por defecto serÃ¡ 0 si no estÃ¡ definido
+$activos = isset($_GET['activos']) ? $_GET['activos'] : '0';  // Por defecto será 0 si no está definido
 
 //echo "valor activo".$activos;
 
@@ -15,7 +15,7 @@ $activos = isset($_GET['activos']) ? $_GET['activos'] : '0';  // Por defecto ser
 			$sql2 = "";
 	}
 
-	// Filtrar por ID o nombre segÃºn lo ingresado
+	// Filtrar por ID o nombre según lo ingresado
 	if (isset($_GET['busqueda']))
 		{
 				if (is_numeric($busqueda)) {
@@ -52,7 +52,7 @@ echo '<tr>
 
 
 while ($row = mysql_fetch_assoc($result)) {
-    // CHEQUEAMOS SI LA PLAZA ESTÃ OCUPADA
+    // CHEQUEAMOS SI LA PLAZA ESTÁ OCUPADA
     $sqlM = "SELECT * FROM alta_baja ab WHERE materia='$row[id]' ".$sql2;
 	//echo $sqlM;
    $resultM = mysql_query($sqlM);
@@ -72,7 +72,7 @@ while ($row = mysql_fetch_assoc($result)) {
             $enlace = 1;
             $dnidoc = $docenteresp['dni'];
 
-            // Cambiar el color segÃºn la situaciÃ³n de revista
+            // Cambiar el color según la situación de revista
             if ($docenteresp['sit_revista'] == 1) $color = "style='background-color: green;'";
             if ($docenteresp['sit_revista'] == 2) $color = "style='background-color: blue;'";
             if ($docenteresp['sit_revista'] == 3) $color = "style='background-color: yellow;'";
@@ -107,4 +107,5 @@ echo '</table>';
 
 mysql_close($conexion);
 ?>
+
 

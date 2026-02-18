@@ -1,0 +1,66 @@
+{{define "asistenciaef"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Asistencia EF (SADSGO)</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+.wrapper { width: 980px; margin: 0 auto; }
+#customers { border-collapse: collapse; width: 70%; }
+#customers th, #customers td { border: 1px solid #c0c0c0; padding: 6px; }
+#customers th { background: #efefef; }
+.notice { background: #e8f5e9; border: 1px solid #81c784; padding: 8px; width: 70%; }
+</style>
+</head>
+<body>
+<div class="wrapper" align="center">
+  <br><br>
+  <form method="get" action="/">
+    <input type="hidden" name="m" value="inasistencia" />
+    <input type="hidden" name="f" value="asistenciaef" />
+
+    <select name="curso">
+      {{range .Cursos}}
+        <option value="{{.ID}}" {{if eq .ID $.CursoSeleccionado}}selected{{end}}>{{.Descripcion}}</option>
+      {{end}}
+    </select>
+
+    <input type="submit" name="mostrar" value="Mostrar Alumnos" />
+
+    <br><br>
+
+    {{if .Mostrar}}
+      Materia:
+      <select name="materia"><option selected value="EF">Educacion Fisica</option></select>
+      <br><br>
+      <table id="customers">
+        <tr>
+          <th>*</th><th>DNI</th><th>Nombre y Apellido</th><th>I</th><th>J</th><th>T</th><th>TT</th><th>AP</th><th>Pend.*</th>
+        </tr>
+        {{range .Alumnos}}
+          <tr>
+            <td><input type="checkbox" name="ausentes" value="{{.DNI}}"></td>
+            <td>{{.DNI}}</td>
+            <td>{{.Nombre}}</td>
+            <td><input type="radio" name="ij[{{.DNI}}]" checked value="1"></td>
+            <td><input type="radio" name="ij[{{.DNI}}]" value="0"></td>
+            <td><input type="radio" name="ij[{{.DNI}}]" value="2"></td>
+            <td><input type="radio" name="ij[{{.DNI}}]" value="4"></td>
+            <td><input type="radio" name="ij[{{.DNI}}]" value="3"></td>
+            <td><input type="radio" name="ij[{{.DNI}}]" value="5"></td>
+          </tr>
+        {{end}}
+      </table>
+      <br><br>
+      <input type="submit" name="enviar" value="Guardar Faltas" />
+    {{end}}
+  </form>
+
+  {{if .Mensaje}}
+    <br><div class="notice">{{.Mensaje}}</div>
+  {{end}}
+</div>
+</body>
+</html>
+{{end}}

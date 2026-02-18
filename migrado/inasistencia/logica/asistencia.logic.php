@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -25,7 +25,7 @@ if (function_exists('conectar')) {
 }
 
 // Se mantiene conexion legacy como en el flujo original.
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("base_sobral") or die(mysql_error());
 
 function iasis_asistencia_fetch_cursos()
@@ -96,3 +96,4 @@ if ($iasisEnviar) {
     iasis_asistencia_guardar_faltas($ausentes, $ij, $iasisMateria);
     $iasisMensaje = 'Datos Guardados';
 }
+

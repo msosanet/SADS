@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 
 <head>
@@ -50,7 +50,7 @@ if ($_SESSION['valor']==3) include 'menuppal3.php';
 <?
 
 // Make a MySQL Connection
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("base_sobral") or die(mysql_error());
 
 $sql = "SELECT * FROM curso2 WHERE habilitado='1'order by curso,division ASC";
@@ -172,4 +172,5 @@ mysql_query($sql);
 echo "</form>";
 
 }?>
+
 

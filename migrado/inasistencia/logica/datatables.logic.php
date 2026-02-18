@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
         <thead>
             <tr>
                 <?php
-                $linkcalif2 = mysqli_connect('192.168.0.249', 'root', 'msi2010', 'sid');
+                $linkcalif2 = mysqli_connect('192.168.0.249', 'root', '', 'sid');
 
                 $sqlCOL = "SHOW COLUMNS FROM sigeTMP2";
                 $resultCOL = mysqli_query($linkcalif2, $sqlCOL);
@@ -22,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Los datos se cargarÃ¡n aquÃ­ con DataTables -->
+            <!-- Los datos se cargarán aquí con DataTables -->
         </tbody>
     </table>
 
@@ -45,10 +45,11 @@
                     }
                     echo json_encode($columnas);
                 ?>,
-                // Puedes personalizar mÃ¡s opciones segÃºn tus necesidades
+                // Puedes personalizar más opciones según tus necesidades
             });
         });
     </script>
 </body>
 </html>
+
 

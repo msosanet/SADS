@@ -1,0 +1,76 @@
+{{define "boletin"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Inasistencias del mes (SADSGO)</title>
+<style type="text/css">
+body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+#customers { border-collapse: collapse; width: 98%; }
+#customers th, #customers td { border: 1px solid #c0c0c0; padding: 4px; }
+#customers th { background: #efefef; font-size: 11px; }
+.wrapper { width: 980px; margin: 0 auto; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <br><br>
+  <form method="get" action="/">
+    <input type="hidden" name="m" value="inasistencia" />
+    <input type="hidden" name="f" value="boletin" />
+
+    Curso:
+    <select name="curso">
+      {{range .Cursos}}
+        <option value="{{.ID}}" {{if eq .ID $.CursoSeleccionado}}selected{{end}}>{{.Descripcion}}</option>
+      {{end}}
+    </select>
+
+    &nbsp;&nbsp;Seleccione Mes:
+    <select name="mes">
+      {{range .Meses}}
+        <option value="{{.Num}}" {{if eqInt .Num $.MesSeleccionado}}selected{{end}}>{{.Nombre}}</option>
+      {{end}}
+    </select>
+
+    <input type="submit" name="mostrar" value="Ver Planilla Asistencia" />
+  </form>
+
+  {{if .Mostrar}}
+    <br><br>
+    <h2>{{.Titulo}}</h2>
+    <h3>{{.Subtitulo}}</h3>
+
+    <table id="customers">
+      <tr>
+        <th width="25%">Alumno</th>
+        {{range .DiasHeaders}}
+          <th>{{.}}</th>
+        {{end}}
+        <th>Total A. Justificadas</th>
+        <th>Total A. Injustificadas</th>
+        <th>Total Ausencias (I+J+T)</th>
+        <th>Total Presentes</th>
+        <th>%</th>
+      </tr>
+
+      {{range .Planilla}}
+        <tr>
+          <td>{{.Alumno}}</td>
+          {{range .Celdas}}
+            <td align="center" bgcolor="{{.BG}}">{{if .Link}}<span>{{.Codigo}}</span>{{else}}{{.Codigo}}{{end}}</td>
+          {{end}}
+          <td align="center">{{.Justificadas}}</td>
+          <td align="center">{{.Injustificadas}}</td>
+          <td align="center">{{.TotalAusentes}}</td>
+          <td align="center">{{.Presentes}}</td>
+          <td align="center" bgcolor="{{.ColorPorcentaje}}">{{.Porcentaje}}</td>
+        </tr>
+      {{end}}
+    </table>
+  {{end}}
+</div>
+</body>
+</html>
+{{end}}
+

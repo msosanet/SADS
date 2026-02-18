@@ -1,4 +1,4 @@
-﻿-- IASis local schema minimo de demo
+usuariosusuarios-- IASis local schema minimo de demo
 -- Fecha: 2026-02-16
 
 CREATE DATABASE IF NOT EXISTS base_sobral CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -6,7 +6,7 @@ CREATE DATABASE IF NOT EXISTS sid CHARACTER SET utf8mb4 COLLATE utf8mb4_general_
 
 -- Opcional: crear usuarios legacy locales (ejecutar solo si tenes permisos de administrador MySQL)
 -- CREATE USER IF NOT EXISTS 'fgoicoechea'@'localhost' IDENTIFIED BY 'sobral2011';
--- CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY 'msi2010';
+-- CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY '';
 -- GRANT ALL PRIVILEGES ON base_sobral.* TO 'fgoicoechea'@'localhost';
 -- GRANT ALL PRIVILEGES ON sid.* TO 'fgoicoechea'@'localhost';
 -- GRANT ALL PRIVILEGES ON sid.* TO 'root'@'localhost';
@@ -178,3 +178,4 @@ CREATE TABLE IF NOT EXISTS docente (
   numero VARCHAR(20) DEFAULT NULL,
   PRIMARY KEY (dni)
 ) ENGINE=InnoDB;
+

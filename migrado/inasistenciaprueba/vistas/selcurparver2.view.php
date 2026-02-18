@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 
 <head>
@@ -235,7 +235,7 @@ else
 $consulta="SELECT PP.registro,PP.hora,M.descripcion as materia,M.idmateria,CONCAT(D.apellido, ' ', D.nombre) as nombredoc,D.dni,PP.estado,C.idcurso,C.descripcion as cursox,C.turno,PP.observaciones,PP.anotaciones FROM partepreceptores PP, docente D, materias M, curso2 C WHERE PP.fecha='$fecha' AND PP.curso=C.idcurso AND M.idmateria=PP.materia AND PP.docente=D.dni AND PP.estado!='P' ORDER BY C.descripcion,PP.hora ASC";
 $result79 = mysql_query ($consulta);
 
-/*$conn = mysql_connect('localhost', 'root', 'msi2010');*/
+/*$conn = mysql_connect('localhost', 'root', '');*/
 mysql_select_db('sid');
 
 
@@ -307,3 +307,4 @@ while ($fila79 = mysql_fetch_array($result79))
 }
   ?>
 </html>
+

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -52,7 +52,7 @@ $anio = $fechafalta ? strftime('%Y', strtotime($fechafalta)) : date('Y');
 $asunto = "FALTA - $nya FECHA: $fechafalta MATERIA: $materia CURSO: $curso TURNO: $turno";
 
 if ($iasisParametrosCompletos) {
-    $enlace = mysql_connect('localhost', 'root', 'msi2010');
+    $enlace = mysql_connect('localhost', 'root', '');
     if ($enlace) {
         mysql_select_db('sid');
         $resultN = mysql_query("SELECT * FROM notificaciones WHERE descripcion='$asunto' AND anio='$anio'");
@@ -74,3 +74,4 @@ if ($iasisParametrosCompletos) {
 setlocale(LC_TIME, 'spanish');
 $hoyTxt = strftime('%A %d de %B de %Y');
 $faltaTxt = $fechafalta ? strftime('%d de %B de %Y', strtotime($fechafalta)) : '';
+

@@ -1,6 +1,6 @@
-﻿<?php
+<?php
 try {
-    $conn = new PDO('mysql:host=192.168.0.249;dbname=sid','root','msi2010');
+    $conn = new PDO('mysql:host=192.168.0.249;dbname=sid','root','');
 } catch (PDOException $exception) {
     die($exception->getMessage());
 }
@@ -16,3 +16,4 @@ if ($st) {
     var_dump($conn->errorInfo());
     die;
 }
+

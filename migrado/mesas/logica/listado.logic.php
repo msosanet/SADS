@@ -1,8 +1,8 @@
-ï»¿<html> 
+<html> 
 <body> 
   
 <?php 
-$link = mysql_connect("localhost", "root","msi2010"); 
+$link = mysql_connect("localhost", "root",""); 
 mysql_select_db("sid", $link); 
 $result = mysql_query("SELECT * FROM alumnos", $link); 
 $filax2 = mysql_fetch_array($resultxx);
@@ -15,9 +15,10 @@ if ($row = mysql_fetch_array($result)){
    } while ($row = mysql_fetch_array($result)); 
    echo "</table> \n"; 
 } else { 
-echo "Â¡ No se ha encontrado ningÃºn registro !"; 
+echo "¡ No se ha encontrado ningún registro !"; 
 } 
 ?> 
   
 </body> 
 </html>
+

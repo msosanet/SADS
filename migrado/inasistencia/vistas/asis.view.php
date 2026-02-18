@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 
 <head>
@@ -64,7 +64,7 @@ if (isset($_GET['mostrarcurso']))
 
 	
 // Make a MySQL Connection
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("sid") or die(mysql_error());
 
 
@@ -99,7 +99,7 @@ echo "<form method='GET' action='asis.php'>";
 echo "Divisiones:    ";
 $curso=$_GET['curso'];
 //$division=$_GET['division'];
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("sid") or die(mysql_error());
 $sqli = "SELECT DISTINCT division FROM alumnos_curso WHERE curso='".$curso."' AND division!='' ORDER BY division ASC";
 //echo $sqli;
@@ -124,7 +124,7 @@ echo "</form>";
 
 if (isset($_GET['mostrar']))
 { 
-mysql_connect("localhost", "root", "msi2010") or die(mysql_error());
+mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("sid") or die(mysql_error());
 $division=$_GET['division'];
 $curso=$_GET['curso'];
@@ -188,6 +188,7 @@ mysql_query($sql);
 echo "</form>";
 
 }?>
+
 
 
 

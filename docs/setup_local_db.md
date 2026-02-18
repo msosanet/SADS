@@ -1,4 +1,4 @@
-﻿# Setup Local DB (IASis)
+# Setup Local DB (IASis)
 
 Fecha: 2026-02-16
 Objetivo: levantar base minima local para demo sin importar datos del sistema real.
@@ -27,7 +27,7 @@ SOURCE d:/backsobral/Sistema/www/html/IASis/sql/local_seed_min.sql;
 ## Paso 3: credenciales legacy (si no conecta)
 El sistema usa credenciales hardcodeadas en varios archivos:
 - `fgoicoechea` / `sobral2011`
-- `root` / `msi2010`
+- `root` / ``
 
 Si tu MySQL local no acepta esas credenciales, tenes 2 alternativas:
 1. Crear usuarios locales con esas claves (ver bloque comentado en `local_schema_min.sql`).
@@ -54,3 +54,4 @@ http://localhost/IASis/public/index.php?m=inasistencia&f=notificacionausente&dni
 
 ## Nota
 Los datos son ficticios y de demostracion. No dependen de la base original del colegio.
+

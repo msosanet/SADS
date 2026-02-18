@@ -1,10 +1,10 @@
-﻿<?php
+<?php
 
 echo "INICIO: ".date('Y-m-d H:i:s');
 
 $host="127.0.0.1"; // Host name
 $username="root"; // Mysql username
-$password="msi2010"; // Mysql password
+$password=""; // Mysql password
 $db_name="sid"; // Database name
 //$tbl_name="alumnos"; // Table name
 
@@ -94,4 +94,5 @@ echo "FIN: ".date('Y-m-d H:i:s');
 $query = "delete from Checkinout";  
 $result = mysql_query($query); 
 ?>
+
 

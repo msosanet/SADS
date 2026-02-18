@@ -1,0 +1,53 @@
+{{define "notificacionausente"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Cedula de Notificacion (SADSGO)</title>
+<style>
+body { font-family: "Times New Roman", serif; margin: 32px; }
+.cedula { border: 1px solid #333; padding: 18px; }
+h1 { font-size: 24px; text-align: center; }
+p { font-size: 18px; line-height: 1.35; }
+.firma { margin-top: 40px; }
+.warn { border:1px solid #d32f2f;padding:10px;margin-bottom:16px;background:#ffebee;font-family:Arial,sans-serif; }
+</style>
+</head>
+<body>
+{{if .ParamWarning}}
+<div class="warn">
+  <strong>Atencion:</strong> {{.ParamWarning}}
+  <br><br>
+  <code>/?m=inasistencia&f=notificacionausente&dnix=123&fechaxxx=2026-02-16&materiax=Matematica&cursox=1A&turnox=M&tipox=A&vistax=N</code>
+</div>
+{{end}}
+<div class="cedula">
+  <h1>CEDULA DE NOTIFICACION N&deg; {{.Numero}}</h1>
+  <p style="text-align:right;">Ushuaia, {{.HoyTxt}}.</p>
+  <p>Docente: <strong>{{.Nya}}</strong></p>
+  <p>DNI N&deg; <strong>{{.DNI}}</strong></p>
+  <p>Domicilio: <strong>{{.Domicilio}}</strong></p>
+
+  <p style="text-align:justify; text-indent: 35px;">
+    Se hace saber a usted que, en el plazo de dos (2) dias habiles contados a partir de su notificacion,
+    debera informar por escrito las razones que motivaron su <strong>{{.Movi}}</strong>
+    del dia <strong>{{.FaltaTxt}}</strong>, en el espacio curricular
+    <strong>{{.Materia}}</strong>, curso <strong>{{.Curso}}</strong>,
+    turno <strong>{{.Turno}}</strong>.
+  </p>
+
+  <p style="text-align:justify; text-indent: 35px;">
+    En caso contrario, quedara encuadrada/o en lo dispuesto por el Art. 31, Inc. b, Capitulo VI de la Ley 22.140.
+  </p>
+
+  <p style="text-align:center;"><strong>QUEDA USTED DEBIDAMENTE NOTIFICADA/O</strong></p>
+
+  <div class="firma">
+    <p>Firma: ...............................................................</p>
+    <p>Aclaracion: ..........................................................</p>
+    <p>Fecha y hora: .......................................................</p>
+  </div>
+</div>
+</body>
+</html>
+{{end}}

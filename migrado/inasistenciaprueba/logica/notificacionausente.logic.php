@@ -1,4 +1,4 @@
-﻿
+
 <?PHP
 
 session_start();
@@ -21,7 +21,7 @@ if ($tipo=='T'){$movi='tardanza';}
 
 
 //$numero=$_GET['numero'];
-if ($turno=='M'){$turno='MaÃ±ana';}
+if ($turno=='M'){$turno='Mañana';}
 if ($turno=='T'){$turno='Tarde';}
 if ($turno=='V'){$turno='Vespertino';}
 
@@ -38,7 +38,7 @@ $domicilio=$fila['direccion']." ".$fila['numero'];
 
 
 //***********************************NOTIFICACION**********************************************************************
-$enlace = mysql_connect('localhost', 'root', 'msi2010');
+$enlace = mysql_connect('localhost', 'root', '');
 if (!$enlace) {
     die('No se pudo conectar: ' . mysql_error());
 }
@@ -67,13 +67,13 @@ if($vista=="N")
 //esto pasa las mayusculas acentuadas a minssdsdsdusculas acentuadas
 function strtolowerExtended($str)
 {
-        $low = array(chr(193) => chr(225), //Ã¡
-                    chr(201) => chr(233), //Ã©
-                    chr(205) => chr(237), //Ã­Â­
-                   chr(211) => chr(243), //Ã³
-                   chr(218) => chr(250), //Ãº
-                  chr(220) => chr(252), //Ã¼
-                    chr(209) => chr(241)  //Ã±
+        $low = array(chr(193) => chr(225), //á
+                    chr(201) => chr(233), //é
+                    chr(205) => chr(237), //í­
+                   chr(211) => chr(243), //ó
+                   chr(218) => chr(250), //ú
+                  chr(220) => chr(252), //ü
+                    chr(209) => chr(241)  //ñ
                     );
  
       return strtolower(strtr($str,$low)); 
@@ -100,4 +100,5 @@ $faltaano=strftime('%Y',strtotime($fechafalta));
 
 
 ?>
+
 

@@ -1,0 +1,39 @@
+{{define "alumnosausentes"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>SID - Alumnos Ausentes (SADSGO)</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+#tabla-ausentes { border-collapse: collapse; width: 90%; }
+#tabla-ausentes th, #tabla-ausentes td { border: 1px solid #c0c0c0; padding: 6px; }
+#tabla-ausentes th { background: #efefef; }
+.wrapper { width: 980px; margin: 0 auto; background: #fff; }
+</style>
+</head>
+<body>
+<div class="wrapper" align="center">
+  <h3>Alumnos ausentes del dia {{.Fecha}}</h3>
+  <table id="tabla-ausentes">
+    <tr>
+      <th>DNI</th>
+      <th>Nombre y Apellido</th>
+      <th>Curso</th>
+      <th>Division</th>
+      <th>Materia</th>
+    </tr>
+    {{range .Ausentes}}
+      <tr>
+        <td align="center">{{.DNI}}</td>
+        <td>{{.Alumno}}</td>
+        <td align="center">{{.Curso}}</td>
+        <td align="center">{{.Division}}</td>
+        <td align="center">{{.Tipo}}</td>
+      </tr>
+    {{end}}
+  </table>
+</div>
+</body>
+</html>
+{{end}}

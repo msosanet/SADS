@@ -1,7 +1,7 @@
-﻿<?php
+<?php
 function conectar()
 {
-	mysql_connect("localhost", "root", "msi2010");
+	mysql_connect("localhost", "root", "");
 	mysql_select_db("calificadores");
 }
 
@@ -13,4 +13,5 @@ function desconectar()
 
 
 ?>
+
 

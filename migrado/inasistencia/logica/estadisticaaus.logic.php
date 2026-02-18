@@ -1,8 +1,8 @@
-﻿<?php
+<?php
 // Database credentials
 $dbHost = '192.168.0.254';
 $dbUsername = 'root';
-$dbPassword = 'msi2010';
+$dbPassword = '';
 $dbName = 'sid';
 
 // Create connection and select db
@@ -53,5 +53,6 @@ echo "<input type='submit' name='mostrar' value='Ver Estadistica'/>";
 //SELECT fecha,count(fecha) as total,tipo FROM alumnos_faltas GROUP BY fecha,tipo ORDER BY fecha DESC
 echo "</form>";
 ?>
+
 
 

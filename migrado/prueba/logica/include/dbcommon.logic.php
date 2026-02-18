@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 $version = explode('.', PHP_VERSION);
 if($version[0]*10+$version[1]<53)
@@ -33,7 +33,7 @@ $useOldMysqlLib = (bool)0;
 
 $host="192.168.0.253";
 $user="root";
-$pwd="msi2010";
+$pwd="";
 $port="";
 $sys_dbname="sid";
 
@@ -88,4 +88,5 @@ else
 }
 
 ?>
+
 
