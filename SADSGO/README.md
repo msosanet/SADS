@@ -43,6 +43,37 @@ Abrir:
 - ver_notas
 - ver_notastodas
 
+## Modulos (paquete minimo)
+Para todos los modulos listados en `/?m=modulos&f=index` se agrego:
+- index
+- buscar (demo)
+- alta (demo)
+- ver (demo)
+
+## Alumnos y Docentes (funcional)
+Se habilito paquete minimo real (CRUD basico) usando `base_sobral`:
+- `/?m=alumnos&f=buscar`
+- `/?m=alumnos&f=alta`
+- `/?m=alumnos&f=ver`
+- `/?m=docentes&f=buscar`
+- `/?m=docentes&f=alta`
+- `/?m=docentes&f=ver`
+
+## Preceptores (funcional)
+Tabla nueva `preceptores` agregada en `sql/local_schema_min.sql` y seed en `sql/local_seed_min.sql`.
+- `/?m=preceptores&f=buscar`
+- `/?m=preceptores&f=alta`
+- `/?m=preceptores&f=ver`
+
+## Roles (demo)
+Se agrego login con roles por usuario.
+- `directivo`, `secretario`, `tecnico`: acceso completo.
+- `preceptores`: solo `inasistencia/asistencia`, `alumnosausentes`, `parte_diario`.
+- `secreAlumno`: solo modulo `alumnos`.
+- `secreDocente`: solo modulo `docentes`.
+
+Usuario demo: `demo` / `demo` (rol `directivo`).
+
 ## Variables de entorno
 - `SADSGO_HTTP_ADDR` (default `:8080`)
 - `SADSGO_DB_HOST` (default `127.0.0.1`)

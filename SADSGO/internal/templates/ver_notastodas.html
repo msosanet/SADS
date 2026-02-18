@@ -4,16 +4,16 @@
 <head>
 <meta charset="utf-8" />
 <title>Ver Todas las Notas (SADSGO)</title>
+{{template "shared_styles" .}}
 <style>
-body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
-.wrapper { width: 980px; margin: 0 auto; }
 table { border-collapse: collapse; width: 95%; }
 th, td { border: 1px solid #c0c0c0; padding: 6px; }
 th { background: #808080; color: #fff; }
 </style>
 </head>
 <body>
-<div class="wrapper" align="center">
+{{template "shared_nav" .}}
+<div class="shell" align="center">
   <h2>Buscar Nota por Asunto</h2>
   <form method="get" action="/">
     <input type="hidden" name="m" value="inasistencia" />
@@ -24,6 +24,7 @@ th { background: #808080; color: #fff; }
 
   {{if .Buscar}}
   <br>
+  <div class="table-wrap">
   <table>
     <tr>
       <th>Num. Nota</th><th>A&ntilde;o</th><th>Asunto</th><th>Responsable</th>
@@ -37,6 +38,7 @@ th { background: #808080; color: #fff; }
       </tr>
     {{end}}
   </table>
+  </div>
   {{end}}
 </div>
 </body>

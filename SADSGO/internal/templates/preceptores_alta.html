@@ -1,0 +1,52 @@
+{{define "preceptores_alta"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Preceptores - Alta (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>Preceptores / Alta</h2>
+  {{if .Error}}<div class="alert">{{.Error}}</div><br>{{end}}
+  {{if .Guardado}}<div class="notice">Preceptor guardado.</div><br>{{end}}
+  <form method="post" action="/?m=preceptores&f=alta">
+    <div class="form-row">
+      <label>DNI</label>
+      <input type="text" name="dni" value="{{.DNI}}" />
+    </div>
+    <div class="form-row">
+      <label>Apellido</label>
+      <input type="text" name="apellido" value="{{.Apellido}}" />
+    </div>
+    <div class="form-row">
+      <label>Nombre</label>
+      <input type="text" name="nombre" value="{{.Nombre}}" />
+    </div>
+    <div class="form-row">
+      <label>Turno</label>
+      <input type="text" name="turno" value="{{.Turno}}" placeholder="Manana/Tarde/Vespertino" />
+    </div>
+    <div class="form-row">
+      <label>Email</label>
+      <input type="text" name="email" value="{{.Email}}" />
+    </div>
+    <div class="form-row">
+      <label>Telefono</label>
+      <input type="text" name="telefono" value="{{.Telefono}}" />
+    </div>
+    <div class="form-row">
+      <label>Activo</label>
+      <select name="activo">
+        <option value="1" {{if .Activo}}selected{{end}}>Si</option>
+        <option value="0" {{if not .Activo}}selected{{end}}>No</option>
+      </select>
+    </div>
+    <input type="submit" value="Guardar" />
+  </form>
+</div>
+</body>
+</html>
+{{end}}

@@ -4,17 +4,17 @@
 <head>
 <meta charset="utf-8" />
 <title>SID - Asistencia (SADSGO)</title>
+{{template "shared_styles" .}}
 <style>
-body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
 #customers { border-collapse: collapse; width: 70%; }
 #customers th, #customers td { border: 1px solid #c0c0c0; padding: 6px; }
 #customers th { background: #efefef; }
-.wrapper { width: 980px; margin: 0 auto; background: #fff; }
-.notice { background: #e8f5e9; border: 1px solid #81c784; padding: 8px; width: 70%; }
+.notice { width: 70%; }
 </style>
 </head>
 <body>
-<div class="wrapper" align="center">
+{{template "shared_nav" .}}
+<div class="shell" align="center">
   <br><br><br>
   <form method="get" action="/">
     <input type="hidden" name="m" value="inasistencia" />
@@ -39,6 +39,7 @@ body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
 
       <br><br>
 
+      <div class="table-wrap">
       <table id="customers">
         <tr>
           <th>*</th>
@@ -63,6 +64,7 @@ body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
           </tr>
         {{end}}
       </table>
+      </div>
 
       <br><br>
       <input type="submit" name="enviar" value="Guardar Faltas" />

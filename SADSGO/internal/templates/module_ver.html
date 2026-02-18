@@ -1,0 +1,30 @@
+{{define "module_ver"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>{{.Modulo}} - Ver (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>{{.Modulo}} / Ver</h2>
+  <form method="get" action="/">
+    <input type="hidden" name="m" value="{{.Modulo}}" />
+    <input type="hidden" name="f" value="ver" />
+    <div class="form-row">
+      <label>ID / Codigo</label>
+      <input type="text" name="id" value="{{.ID}}" />
+      <input type="submit" value="Ver" />
+    </div>
+  </form>
+
+  {{if .ID}}
+  <br>
+  <div class="notice">Vista demo para ID "{{.ID}}". Datos reales se agregan al migrar este modulo.</div>
+  {{end}}
+</div>
+</body>
+</html>
+{{end}}

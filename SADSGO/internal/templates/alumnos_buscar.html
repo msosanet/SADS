@@ -1,0 +1,42 @@
+{{define "alumnos_buscar"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Alumnos - Buscar (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>Alumnos / Buscar</h2>
+  <form method="get" action="/">
+    <input type="hidden" name="m" value="alumnos" />
+    <input type="hidden" name="f" value="buscar" />
+    <div class="form-row">
+      <label>Buscar</label>
+      <input type="text" name="q" value="{{.Query}}" placeholder="dni / apellido / nombre" size="40" />
+      <input type="submit" value="Buscar" />
+    </div>
+  </form>
+
+  {{if .Query}}
+  <br>
+  <div class="table-wrap">
+  <table>
+    <tr><th>DNI</th><th>Apellido</th><th>Nombre</th><th>Ver</th></tr>
+    {{range .Result}}
+      <tr>
+        <td>{{.DNI}}</td>
+        <td>{{.Apellido}}</td>
+        <td>{{.Nombre}}</td>
+        <td><a href="/?m=alumnos&f=ver&dni={{.DNI}}">Ver</a></td>
+      </tr>
+    {{end}}
+  </table>
+  </div>
+  {{end}}
+</div>
+</body>
+</html>
+{{end}}

@@ -1,4 +1,4 @@
-usuariosusuarios-- IASis local schema minimo de demo
+-- IASis local schema minimo de demo
 -- Fecha: 2026-02-16
 
 CREATE DATABASE IF NOT EXISTS base_sobral CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -72,9 +72,12 @@ CREATE TABLE IF NOT EXISTS usuarios (
   nombre VARCHAR(120) DEFAULT NULL,
   valor INT DEFAULT 1,
   estado INT DEFAULT 1,
+  role VARCHAR(40) DEFAULT 'directivo',
   PRIMARY KEY (id),
   UNIQUE KEY uq_usuario (usuario)
 ) ENGINE=InnoDB;
+
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS role VARCHAR(40) DEFAULT 'directivo';
 
 CREATE TABLE IF NOT EXISTS notificaciones (
   id INT NOT NULL AUTO_INCREMENT,
@@ -106,6 +109,17 @@ CREATE TABLE IF NOT EXISTS docente (
   nombre VARCHAR(100) DEFAULT NULL,
   direccion VARCHAR(255) DEFAULT NULL,
   numero VARCHAR(20) DEFAULT NULL,
+  PRIMARY KEY (dni)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS preceptores (
+  dni VARCHAR(20) NOT NULL,
+  apellido VARCHAR(100) DEFAULT NULL,
+  nombre VARCHAR(100) DEFAULT NULL,
+  turno VARCHAR(20) DEFAULT NULL,
+  email VARCHAR(120) DEFAULT NULL,
+  telefono VARCHAR(50) DEFAULT NULL,
+  activo TINYINT(1) DEFAULT 1,
   PRIMARY KEY (dni)
 ) ENGINE=InnoDB;
 
@@ -142,9 +156,12 @@ CREATE TABLE IF NOT EXISTS usuarios (
   nombre VARCHAR(120) DEFAULT NULL,
   valor INT DEFAULT 1,
   estado INT DEFAULT 1,
+  role VARCHAR(40) DEFAULT 'directivo',
   PRIMARY KEY (id),
   UNIQUE KEY uq_usuario (usuario)
 ) ENGINE=InnoDB;
+
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS role VARCHAR(40) DEFAULT 'directivo';
 
 CREATE TABLE IF NOT EXISTS notificaciones (
   id INT NOT NULL AUTO_INCREMENT,
@@ -176,6 +193,17 @@ CREATE TABLE IF NOT EXISTS docente (
   nombre VARCHAR(100) DEFAULT NULL,
   direccion VARCHAR(255) DEFAULT NULL,
   numero VARCHAR(20) DEFAULT NULL,
+  PRIMARY KEY (dni)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS preceptores (
+  dni VARCHAR(20) NOT NULL,
+  apellido VARCHAR(100) DEFAULT NULL,
+  nombre VARCHAR(100) DEFAULT NULL,
+  turno VARCHAR(20) DEFAULT NULL,
+  email VARCHAR(120) DEFAULT NULL,
+  telefono VARCHAR(50) DEFAULT NULL,
+  activo TINYINT(1) DEFAULT 1,
   PRIMARY KEY (dni)
 ) ENGINE=InnoDB;
 

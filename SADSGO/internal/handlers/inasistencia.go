@@ -419,6 +419,126 @@ type VerNotasTodasPage struct {
 	Notas       []NotaView
 }
 
+type ModulesPage struct {
+	Modulos []string
+}
+
+type ModuleIndexPage struct {
+	Modulo string
+}
+
+type ModuleBuscarPage struct {
+	Modulo string
+	Query  string
+}
+
+type ModuleAltaPage struct {
+	Modulo   string
+	Nombre   string
+	Notas    string
+	Guardado bool
+}
+
+type ModuleVerPage struct {
+	Modulo string
+	ID     string
+}
+
+type AlumnoRecord struct {
+	DNI      string
+	Apellido string
+	Nombre   string
+}
+
+type DocenteRecord struct {
+	DNI       string
+	Apellido  string
+	Nombre    string
+	Direccion string
+	Numero    string
+}
+
+type AlumnosBuscarPage struct {
+	Query  string
+	Result []AlumnoRecord
+}
+
+type AlumnosAltaPage struct {
+	DNI      string
+	Apellido string
+	Nombre   string
+	Guardado bool
+	Error    string
+}
+
+type AlumnosVerPage struct {
+	DNI   string
+	Item  *AlumnoRecord
+	Error string
+}
+
+type DocentesBuscarPage struct {
+	Query  string
+	Result []DocenteRecord
+}
+
+type DocentesAltaPage struct {
+	DNI       string
+	Apellido  string
+	Nombre    string
+	Direccion string
+	Numero    string
+	Guardado  bool
+	Error     string
+}
+
+type DocentesVerPage struct {
+	DNI   string
+	Item  *DocenteRecord
+	Error string
+}
+
+type PreceptorRecord struct {
+	DNI      string
+	Apellido string
+	Nombre   string
+	Turno    string
+	Email    string
+	Telefono string
+	Activo   int
+}
+
+type PreceptoresBuscarPage struct {
+	Query  string
+	Result []PreceptorRecord
+}
+
+type PreceptoresAltaPage struct {
+	DNI      string
+	Apellido string
+	Nombre   string
+	Turno    string
+	Email    string
+	Telefono string
+	Activo   bool
+	Guardado bool
+	Error    string
+}
+
+type PreceptoresVerPage struct {
+	DNI   string
+	Item  *PreceptorRecord
+	Error string
+}
+
+type ForbiddenPage struct{}
+
+type LoginPage struct {
+	Usuario string
+	Pass    string
+	Error   string
+}
+
 // Helpers
 
 func (h *Handler) render(w http.ResponseWriter, name string, data any) {
@@ -833,4 +953,357 @@ func spanishDateLong(t time.Time) string {
 func spanishDateDayMonth(t time.Time) string {
 	meses := []string{"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"}
 	return t.Format("02") + " de " + meses[int(t.Month())-1] + " de " + t.Format("2006")
+}
+
+// Modulos genericos
+
+func (h *Handler) ModulesIndex(w http.ResponseWriter, r *http.Request, modulos []string) {
+	h.render(w, "modules", ModulesPage{Modulos: modulos})
+}
+
+func (h *Handler) ModuleIndex(w http.ResponseWriter, r *http.Request, modulo string) {
+	h.render(w, "module_index", ModuleIndexPage{Modulo: modulo})
+}
+
+func (h *Handler) ModuleBuscar(w http.ResponseWriter, r *http.Request, modulo string) {
+	q := r.URL.Query().Get("q")
+	h.render(w, "module_buscar", ModuleBuscarPage{Modulo: modulo, Query: q})
+}
+
+func (h *Handler) ModuleAlta(w http.ResponseWriter, r *http.Request, modulo string) {
+	data := ModuleAltaPage{Modulo: modulo}
+	if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err == nil {
+			data.Nombre = strings.TrimSpace(r.FormValue("nombre"))
+			data.Notas = strings.TrimSpace(r.FormValue("notas"))
+			data.Guardado = true
+		}
+	}
+	h.render(w, "module_alta", data)
+}
+
+func (h *Handler) ModuleVer(w http.ResponseWriter, r *http.Request, modulo string) {
+	id := r.URL.Query().Get("id")
+	h.render(w, "module_ver", ModuleVerPage{Modulo: modulo, ID: id})
+}
+
+// Alumnos (funcional)
+
+func (h *Handler) AlumnosBuscar(w http.ResponseWriter, r *http.Request) {
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	items := []AlumnoRecord{}
+	if q != "" {
+		items, _ = h.fetchAlumnosByQuery(q)
+	}
+	h.render(w, "alumnos_buscar", AlumnosBuscarPage{Query: q, Result: items})
+}
+
+func (h *Handler) AlumnosAlta(w http.ResponseWriter, r *http.Request) {
+	data := AlumnosAltaPage{}
+	if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err == nil {
+			data.DNI = strings.TrimSpace(r.FormValue("dni"))
+			data.Apellido = strings.TrimSpace(r.FormValue("apellido"))
+			data.Nombre = strings.TrimSpace(r.FormValue("nombre"))
+			if data.DNI == "" || data.Apellido == "" || data.Nombre == "" {
+				data.Error = "Completar DNI, apellido y nombre."
+			} else if err := h.insertAlumno(data.DNI, data.Apellido, data.Nombre); err != nil {
+				data.Error = "No se pudo guardar."
+			} else {
+				data.Guardado = true
+			}
+		}
+	}
+	h.render(w, "alumnos_alta", data)
+}
+
+func (h *Handler) AlumnosVer(w http.ResponseWriter, r *http.Request) {
+	dni := strings.TrimSpace(r.URL.Query().Get("dni"))
+	var item *AlumnoRecord
+	var errMsg string
+	if dni != "" {
+		rec, err := h.fetchAlumnoByDNI(dni)
+		if err != nil {
+			errMsg = "No se encontro el alumno."
+		} else {
+			item = &rec
+		}
+	}
+	h.render(w, "alumnos_ver", AlumnosVerPage{DNI: dni, Item: item, Error: errMsg})
+}
+
+func (h *Handler) fetchAlumnosByQuery(q string) ([]AlumnoRecord, error) {
+	like := "%" + q + "%"
+	rows, err := h.DB.Base.Query("SELECT dni, apellido, nombre FROM alumno WHERE dni LIKE ? OR apellido LIKE ? OR nombre LIKE ? ORDER BY apellido, nombre", like, like, like)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	out := []AlumnoRecord{}
+	for rows.Next() {
+		var r AlumnoRecord
+		if err := rows.Scan(&r.DNI, &r.Apellido, &r.Nombre); err != nil {
+			return nil, err
+		}
+		out = append(out, r)
+	}
+	return out, rows.Err()
+}
+
+func (h *Handler) fetchAlumnoByDNI(dni string) (AlumnoRecord, error) {
+	var r AlumnoRecord
+	err := h.DB.Base.QueryRow("SELECT dni, apellido, nombre FROM alumno WHERE dni=?", dni).Scan(&r.DNI, &r.Apellido, &r.Nombre)
+	return r, err
+}
+
+func (h *Handler) insertAlumno(dni, apellido, nombre string) error {
+	_, err := h.DB.Base.Exec("INSERT INTO alumno (dni, apellido, nombre) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE apellido=VALUES(apellido), nombre=VALUES(nombre)", dni, apellido, nombre)
+	return err
+}
+
+// Docentes (funcional)
+
+func (h *Handler) DocentesBuscar(w http.ResponseWriter, r *http.Request) {
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	items := []DocenteRecord{}
+	if q != "" {
+		items, _ = h.fetchDocentesByQuery(q)
+	}
+	h.render(w, "docentes_buscar", DocentesBuscarPage{Query: q, Result: items})
+}
+
+func (h *Handler) DocentesAlta(w http.ResponseWriter, r *http.Request) {
+	data := DocentesAltaPage{}
+	if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err == nil {
+			data.DNI = strings.TrimSpace(r.FormValue("dni"))
+			data.Apellido = strings.TrimSpace(r.FormValue("apellido"))
+			data.Nombre = strings.TrimSpace(r.FormValue("nombre"))
+			data.Direccion = strings.TrimSpace(r.FormValue("direccion"))
+			data.Numero = strings.TrimSpace(r.FormValue("numero"))
+			if data.DNI == "" || data.Apellido == "" || data.Nombre == "" {
+				data.Error = "Completar DNI, apellido y nombre."
+			} else if err := h.insertDocente(data.DNI, data.Apellido, data.Nombre, data.Direccion, data.Numero); err != nil {
+				data.Error = "No se pudo guardar."
+			} else {
+				data.Guardado = true
+			}
+		}
+	}
+	h.render(w, "docentes_alta", data)
+}
+
+func (h *Handler) DocentesVer(w http.ResponseWriter, r *http.Request) {
+	dni := strings.TrimSpace(r.URL.Query().Get("dni"))
+	var item *DocenteRecord
+	var errMsg string
+	if dni != "" {
+		rec, err := h.fetchDocenteByDNI(dni)
+		if err != nil {
+			errMsg = "No se encontro el docente."
+		} else {
+			item = &rec
+		}
+	}
+	h.render(w, "docentes_ver", DocentesVerPage{DNI: dni, Item: item, Error: errMsg})
+}
+
+func (h *Handler) fetchDocentesByQuery(q string) ([]DocenteRecord, error) {
+	like := "%" + q + "%"
+	rows, err := h.DB.Base.Query("SELECT dni, apellido, nombre, direccion, numero FROM docente WHERE dni LIKE ? OR apellido LIKE ? OR nombre LIKE ? ORDER BY apellido, nombre", like, like, like)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	out := []DocenteRecord{}
+	for rows.Next() {
+		var r DocenteRecord
+		if err := rows.Scan(&r.DNI, &r.Apellido, &r.Nombre, &r.Direccion, &r.Numero); err != nil {
+			return nil, err
+		}
+		out = append(out, r)
+	}
+	return out, rows.Err()
+}
+
+func (h *Handler) fetchDocenteByDNI(dni string) (DocenteRecord, error) {
+	var r DocenteRecord
+	err := h.DB.Base.QueryRow("SELECT dni, apellido, nombre, direccion, numero FROM docente WHERE dni=?", dni).
+		Scan(&r.DNI, &r.Apellido, &r.Nombre, &r.Direccion, &r.Numero)
+	return r, err
+}
+
+func (h *Handler) insertDocente(dni, apellido, nombre, direccion, numero string) error {
+	_, err := h.DB.Base.Exec("INSERT INTO docente (dni, apellido, nombre, direccion, numero) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE apellido=VALUES(apellido), nombre=VALUES(nombre), direccion=VALUES(direccion), numero=VALUES(numero)", dni, apellido, nombre, direccion, numero)
+	return err
+}
+
+// Preceptores (funcional)
+
+func (h *Handler) PreceptoresBuscar(w http.ResponseWriter, r *http.Request) {
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	items := []PreceptorRecord{}
+	if q != "" {
+		items, _ = h.fetchPreceptoresByQuery(q)
+	}
+	h.render(w, "preceptores_buscar", PreceptoresBuscarPage{Query: q, Result: items})
+}
+
+func (h *Handler) PreceptoresAlta(w http.ResponseWriter, r *http.Request) {
+	data := PreceptoresAltaPage{}
+	if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err == nil {
+			data.DNI = strings.TrimSpace(r.FormValue("dni"))
+			data.Apellido = strings.TrimSpace(r.FormValue("apellido"))
+			data.Nombre = strings.TrimSpace(r.FormValue("nombre"))
+			data.Turno = strings.TrimSpace(r.FormValue("turno"))
+			data.Email = strings.TrimSpace(r.FormValue("email"))
+			data.Telefono = strings.TrimSpace(r.FormValue("telefono"))
+			data.Activo = r.FormValue("activo") == "1"
+			if data.DNI == "" || data.Apellido == "" || data.Nombre == "" {
+				data.Error = "Completar DNI, apellido y nombre."
+			} else if err := h.insertPreceptor(data); err != nil {
+				data.Error = "No se pudo guardar."
+			} else {
+				data.Guardado = true
+			}
+		}
+	}
+	h.render(w, "preceptores_alta", data)
+}
+
+func (h *Handler) PreceptoresVer(w http.ResponseWriter, r *http.Request) {
+	dni := strings.TrimSpace(r.URL.Query().Get("dni"))
+	var item *PreceptorRecord
+	var errMsg string
+	if dni != "" {
+		rec, err := h.fetchPreceptorByDNI(dni)
+		if err != nil {
+			errMsg = "No se encontro el preceptor."
+		} else {
+			item = &rec
+		}
+	}
+	h.render(w, "preceptores_ver", PreceptoresVerPage{DNI: dni, Item: item, Error: errMsg})
+}
+
+func (h *Handler) Forbidden(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusForbidden)
+	h.render(w, "forbidden", ForbiddenPage{})
+}
+
+func (h *Handler) ParteDiario(w http.ResponseWriter, r *http.Request) {
+	h.render(w, "parte_diario", struct{}{})
+}
+
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
+	data := LoginPage{}
+	if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err == nil {
+			data.Usuario = strings.TrimSpace(r.FormValue("usuario"))
+			data.Pass = strings.TrimSpace(r.FormValue("pass"))
+			if data.Usuario == "" || data.Pass == "" {
+				data.Error = "Completar usuario y clave."
+			} else {
+				role, ok := h.authenticateUser(data.Usuario, data.Pass)
+				if !ok {
+					data.Error = "Usuario o clave incorrectos."
+				} else {
+					setLoginCookies(w, data.Usuario, role)
+					http.Redirect(w, r, "/", http.StatusSeeOther)
+					return
+				}
+			}
+		}
+	}
+	h.render(w, "login", data)
+}
+
+func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
+	clearLoginCookies(w)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
+}
+
+func (h *Handler) authenticateUser(user, pass string) (string, bool) {
+	var role sql.NullString
+	var estado sql.NullInt64
+	err := h.DB.Base.QueryRow("SELECT role, estado FROM usuarios WHERE usuario=? AND pass=?", user, pass).Scan(&role, &estado)
+	if err != nil {
+		return "", false
+	}
+	if estado.Valid && estado.Int64 == 0 {
+		return "", false
+	}
+	if role.Valid && role.String != "" {
+		return role.String, true
+	}
+	return "directivo", true
+}
+
+func setLoginCookies(w http.ResponseWriter, user, role string) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     "sadsgo_user",
+		Value:    user,
+		Path:     "/",
+		HttpOnly: true,
+	})
+	http.SetCookie(w, &http.Cookie{
+		Name:     "sadsgo_role",
+		Value:    role,
+		Path:     "/",
+		HttpOnly: true,
+	})
+}
+
+func clearLoginCookies(w http.ResponseWriter) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     "sadsgo_user",
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1,
+		HttpOnly: true,
+	})
+	http.SetCookie(w, &http.Cookie{
+		Name:     "sadsgo_role",
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1,
+		HttpOnly: true,
+	})
+}
+
+func (h *Handler) fetchPreceptoresByQuery(q string) ([]PreceptorRecord, error) {
+	like := "%" + q + "%"
+	rows, err := h.DB.Base.Query("SELECT dni, apellido, nombre, turno, email, telefono, activo FROM preceptores WHERE dni LIKE ? OR apellido LIKE ? OR nombre LIKE ? ORDER BY apellido, nombre", like, like, like)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	out := []PreceptorRecord{}
+	for rows.Next() {
+		var r PreceptorRecord
+		if err := rows.Scan(&r.DNI, &r.Apellido, &r.Nombre, &r.Turno, &r.Email, &r.Telefono, &r.Activo); err != nil {
+			return nil, err
+		}
+		out = append(out, r)
+	}
+	return out, rows.Err()
+}
+
+func (h *Handler) fetchPreceptorByDNI(dni string) (PreceptorRecord, error) {
+	var r PreceptorRecord
+	err := h.DB.Base.QueryRow("SELECT dni, apellido, nombre, turno, email, telefono, activo FROM preceptores WHERE dni=?", dni).
+		Scan(&r.DNI, &r.Apellido, &r.Nombre, &r.Turno, &r.Email, &r.Telefono, &r.Activo)
+	return r, err
+}
+
+func (h *Handler) insertPreceptor(p PreceptoresAltaPage) error {
+	activo := 0
+	if p.Activo {
+		activo = 1
+	}
+	_, err := h.DB.Base.Exec("INSERT INTO preceptores (dni, apellido, nombre, turno, email, telefono, activo) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE apellido=VALUES(apellido), nombre=VALUES(nombre), turno=VALUES(turno), email=VALUES(email), telefono=VALUES(telefono), activo=VALUES(activo)",
+		p.DNI, p.Apellido, p.Nombre, p.Turno, p.Email, p.Telefono, activo,
+	)
+	return err
 }

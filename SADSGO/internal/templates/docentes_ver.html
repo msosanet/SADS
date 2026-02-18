@@ -1,0 +1,42 @@
+{{define "docentes_ver"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Docentes - Ver (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>Docentes / Ver</h2>
+  <form method="get" action="/">
+    <input type="hidden" name="m" value="docentes" />
+    <input type="hidden" name="f" value="ver" />
+    <div class="form-row">
+      <label>DNI</label>
+      <input type="text" name="dni" value="{{.DNI}}" />
+      <input type="submit" value="Ver" />
+    </div>
+  </form>
+
+  {{if .Error}}<br><div class="alert">{{.Error}}</div>{{end}}
+  {{if .Item}}
+    <br>
+    <div class="table-wrap">
+    <table>
+      <tr><th>DNI</th><th>Apellido</th><th>Nombre</th><th>Direccion</th><th>Numero</th></tr>
+      <tr>
+        <td>{{.Item.DNI}}</td>
+        <td>{{.Item.Apellido}}</td>
+        <td>{{.Item.Nombre}}</td>
+        <td>{{.Item.Direccion}}</td>
+        <td>{{.Item.Numero}}</td>
+      </tr>
+    </table>
+    </div>
+  {{end}}
+</div>
+</body>
+</html>
+{{end}}

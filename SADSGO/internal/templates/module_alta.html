@@ -1,0 +1,32 @@
+{{define "module_alta"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>{{.Modulo}} - Alta (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>{{.Modulo}} / Alta</h2>
+  <form method="post" action="/?m={{.Modulo}}&f=alta">
+    <div class="form-row">
+      <label>Nombre / Descripcion</label>
+      <input type="text" name="nombre" size="50" value="{{.Nombre}}" />
+    </div>
+    <div class="form-row">
+      <label>Notas</label>
+      <textarea name="notas" rows="4">{{.Notas}}</textarea>
+    </div>
+    <input type="submit" value="Guardar (demo)" />
+  </form>
+
+  {{if .Guardado}}
+  <br>
+  <div class="notice">Alta demo guardada (sin persistencia).</div>
+  {{end}}
+</div>
+</body>
+</html>
+{{end}}

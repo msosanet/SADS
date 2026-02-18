@@ -43,9 +43,9 @@ INSERT INTO alumnos_faltas (dni, fecha, tipo, injus) VALUES
 ('30222333', DATE_SUB(CURDATE(), INTERVAL 4 DAY), 'TEDI', 1),
 ('30333444', DATE_SUB(CURDATE(), INTERVAL 6 DAY), 'General', 1);
 
-INSERT INTO usuarios (usuario, pass, nombre, valor, estado) VALUES
-('demo','demo','Usuario Demo',1,1)
-ON DUPLICATE KEY UPDATE pass=VALUES(pass), nombre=VALUES(nombre), valor=VALUES(valor), estado=VALUES(estado);
+INSERT INTO usuarios (usuario, pass, nombre, valor, estado, role) VALUES
+('demo','demo','Usuario Demo',1,1,'directivo')
+ON DUPLICATE KEY UPDATE pass=VALUES(pass), nombre=VALUES(nombre), valor=VALUES(valor), estado=VALUES(estado), role=VALUES(role);
 
 INSERT INTO notificaciones (codigo, descripcion, agente, anio, path) VALUES
 (1, CONCAT('NOTIFICACION DEMO ', @anio_actual), 'Usuario Demo', @anio_actual, NULL),
@@ -60,6 +60,10 @@ ON DUPLICATE KEY UPDATE descripcion=VALUES(descripcion), gen=VALUES(gen), fecha=
 INSERT INTO docente (dni, apellido, nombre, direccion, numero) VALUES
 ('30111222','Gomez','Ana','Yamana','1572')
 ON DUPLICATE KEY UPDATE apellido=VALUES(apellido), nombre=VALUES(nombre), direccion=VALUES(direccion), numero=VALUES(numero);
+
+INSERT INTO preceptores (dni, apellido, nombre, turno, email, telefono, activo) VALUES
+('40111222','Lopez','Carla','Manana','carla.lopez@example.com','2901-555111',1)
+ON DUPLICATE KEY UPDATE apellido=VALUES(apellido), nombre=VALUES(nombre), turno=VALUES(turno), email=VALUES(email), telefono=VALUES(telefono), activo=VALUES(activo);
 
 INSERT INTO alumnos (dni, alumno, curso, division) VALUES
 ('30111222','Gomez Ana','1','A'),
@@ -81,9 +85,9 @@ INSERT INTO alumnos_faltas (dni, fecha, tipo, injus) VALUES
 ('30222333', CURDATE(), 'General', 0),
 ('30333444', CURDATE(), 'EF', 2);
 
-INSERT INTO usuarios (usuario, pass, nombre, valor, estado) VALUES
-('demo','demo','Usuario Demo',1,1)
-ON DUPLICATE KEY UPDATE pass=VALUES(pass), nombre=VALUES(nombre), valor=VALUES(valor), estado=VALUES(estado);
+INSERT INTO usuarios (usuario, pass, nombre, valor, estado, role) VALUES
+('demo','demo','Usuario Demo',1,1,'directivo')
+ON DUPLICATE KEY UPDATE pass=VALUES(pass), nombre=VALUES(nombre), valor=VALUES(valor), estado=VALUES(estado), role=VALUES(role);
 
 INSERT INTO notificaciones (codigo, descripcion, agente, anio, path) VALUES
 (1, CONCAT('NOTIFICACION DEMO ', @anio_actual), 'Usuario Demo', @anio_actual, NULL),
@@ -98,3 +102,7 @@ ON DUPLICATE KEY UPDATE descripcion=VALUES(descripcion), gen=VALUES(gen), fecha=
 INSERT INTO docente (dni, apellido, nombre, direccion, numero) VALUES
 ('30111222','Gomez','Ana','Yamana','1572')
 ON DUPLICATE KEY UPDATE apellido=VALUES(apellido), nombre=VALUES(nombre), direccion=VALUES(direccion), numero=VALUES(numero);
+
+INSERT INTO preceptores (dni, apellido, nombre, turno, email, telefono, activo) VALUES
+('40111222','Lopez','Carla','Manana','carla.lopez@example.com','2901-555111',1)
+ON DUPLICATE KEY UPDATE apellido=VALUES(apellido), nombre=VALUES(nombre), turno=VALUES(turno), email=VALUES(email), telefono=VALUES(telefono), activo=VALUES(activo);

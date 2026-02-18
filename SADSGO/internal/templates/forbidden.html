@@ -1,0 +1,18 @@
+{{define "forbidden"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Acceso restringido</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>Acceso restringido</h2>
+  <div class="alert">Tu rol actual no tiene permiso para acceder a esta seccion.</div>
+  <p class="muted">Usa el selector de roles del header o consulta al administrador.</p>
+</div>
+</body>
+</html>
+{{end}}

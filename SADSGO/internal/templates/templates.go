@@ -13,5 +13,6 @@ func Parse() (*template.Template, error) {
 		"urlquery": template.URLQueryEscaper,
 		"eq":       func(a, b string) bool { return a == b },
 		"eqInt":    func(a, b int) bool { return a == b },
+		"not":      func(v bool) bool { return !v },
 	}).ParseFS(fs, "*.html")
 }

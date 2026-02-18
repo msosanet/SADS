@@ -4,16 +4,16 @@
 <head>
 <meta charset="utf-8" />
 <title>Inasistencias del mes (SADSGO)</title>
+{{template "shared_styles" .}}
 <style type="text/css">
-body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
 #customers { border-collapse: collapse; width: 98%; }
 #customers th, #customers td { border: 1px solid #c0c0c0; padding: 4px; }
 #customers th { background: #efefef; font-size: 11px; }
-.wrapper { width: 980px; margin: 0 auto; }
 </style>
 </head>
 <body>
-<div class="wrapper">
+{{template "shared_nav" .}}
+<div class="shell">
   <br><br>
   <form method="get" action="/">
     <input type="hidden" name="m" value="inasistencia" />
@@ -41,6 +41,7 @@ body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
     <h2>{{.Titulo}}</h2>
     <h3>{{.Subtitulo}}</h3>
 
+    <div class="table-wrap">
     <table id="customers">
       <tr>
         <th width="25%">Alumno</th>
@@ -68,6 +69,7 @@ body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
         </tr>
       {{end}}
     </table>
+    </div>
   {{end}}
 </div>
 </body>

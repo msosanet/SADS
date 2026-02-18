@@ -1,0 +1,171 @@
+{{define "shared_styles"}}
+<style>
+:root {
+  --ink: #1d1f23;
+  --muted: #5a616a;
+  --bg: #f1f1f1;
+  --paper: #ffffff;
+  --accent: #2f5a7a;
+  --accent-2: #19354a;
+  --line: #d2d6db;
+  --soft: #f7f8fa;
+  --ok: #e8f5e9;
+  --ok-border: #81c784;
+  --warn: #ffebee;
+  --warn-border: #d32f2f;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Verdana", "Tahoma", sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--bg);
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  background: linear-gradient(90deg, #e6edf3 0%, #f5f7fa 100%);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .inner {
+  width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 10px;
+}
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: var(--accent-2);
+}
+.nav a {
+  margin-right: 14px;
+  font-weight: 600;
+  color: var(--accent-2);
+}
+.nav a.active {
+  text-decoration: underline;
+}
+.nav-group {
+  display: inline-block;
+  margin-right: 18px;
+  padding-right: 12px;
+  border-right: 1px solid var(--line);
+}
+.nav-group:last-child {
+  border-right: none;
+}
+.nav-title {
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 8px;
+}
+.shell {
+  width: 1000px;
+  margin: 18px auto 40px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 18px 22px 26px;
+}
+.muted { color: var(--muted); }
+.notice {
+  background: var(--ok);
+  border: 1px solid var(--ok-border);
+  padding: 8px;
+}
+.alert {
+  background: var(--warn);
+  border: 1px solid var(--warn-border);
+  padding: 8px;
+}
+.card {
+  border: 1px solid var(--line);
+  background: var(--soft);
+  padding: 12px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+table {
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #c0c0c0;
+  padding: 6px;
+}
+th {
+  background: #efefef;
+}
+input[type="text"], textarea, select {
+  border: 1px solid var(--line);
+  padding: 6px;
+  background: #fff;
+}
+input[type="submit"] {
+  border: 1px solid var(--accent-2);
+  background: var(--accent);
+  color: #fff;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.form-row { margin-bottom: 10px; }
+.form-row label { display: block; margin-bottom: 4px; color: var(--muted); }
+.table-wrap { overflow-x: auto; }
+@media (max-width: 1060px) {
+  .topbar .inner, .shell { width: auto; margin: 0; }
+  .shell { margin: 12px; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .nav a { display: inline-block; margin-bottom: 6px; }
+  .grid-3 { grid-template-columns: 1fr; }
+}
+</style>
+{{end}}
+
+{{define "shared_nav"}}
+<div class="topbar">
+  <div class="inner">
+    <div class="brand">IASis / SADSGO</div>
+    <div class="nav">
+      <span class="nav-group">
+        <span class="nav-title">General</span>
+        <a href="/">Inicio</a>
+        <a href="/?m=modulos&f=index">Modulos</a>
+      </span>
+      <span class="nav-group">
+        <span class="nav-title">Inasistencia</span>
+        <a href="/?m=inasistencia&f=asistencia">Asistencia</a>
+        <a href="/?m=inasistencia&f=alumnosausentes">Ausentes</a>
+        <a href="/?m=inasistencia&f=parte_diario">Parte Diario</a>
+        <a href="/?m=inasistencia&f=boletin">Boletin</a>
+        <a href="/?m=inasistencia&f=notificaciones">Notificaciones</a>
+        <a href="/?m=inasistencia&f=ver_notas">Notas</a>
+      </span>
+      <span class="nav-group">
+        <span class="nav-title">Personas</span>
+        <a href="/?m=alumnos&f=buscar">Alumnos</a>
+        <a href="/?m=docentes&f=buscar">Docentes</a>
+        <a href="/?m=preceptores&f=index">Preceptores</a>
+      </span>
+      <span class="nav-group">
+        <span class="nav-title">Cuenta</span>
+        <a href="/logout">Salir</a>
+      </span>
+    </div>
+  </div>
+</div>
+{{end}}

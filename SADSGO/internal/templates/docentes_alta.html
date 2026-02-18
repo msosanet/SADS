@@ -1,0 +1,41 @@
+{{define "docentes_alta"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Docentes - Alta (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>Docentes / Alta</h2>
+  {{if .Error}}<div class="alert">{{.Error}}</div><br>{{end}}
+  {{if .Guardado}}<div class="notice">Docente guardado.</div><br>{{end}}
+  <form method="post" action="/?m=docentes&f=alta">
+    <div class="form-row">
+      <label>DNI</label>
+      <input type="text" name="dni" value="{{.DNI}}" />
+    </div>
+    <div class="form-row">
+      <label>Apellido</label>
+      <input type="text" name="apellido" value="{{.Apellido}}" />
+    </div>
+    <div class="form-row">
+      <label>Nombre</label>
+      <input type="text" name="nombre" value="{{.Nombre}}" />
+    </div>
+    <div class="form-row">
+      <label>Direccion</label>
+      <input type="text" name="direccion" value="{{.Direccion}}" />
+    </div>
+    <div class="form-row">
+      <label>Numero</label>
+      <input type="text" name="numero" value="{{.Numero}}" />
+    </div>
+    <input type="submit" value="Guardar" />
+  </form>
+</div>
+</body>
+</html>
+{{end}}

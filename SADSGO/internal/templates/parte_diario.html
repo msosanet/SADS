@@ -1,0 +1,25 @@
+{{define "parte_diario"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Parte Diario (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>Parte Diario de Preceptores</h2>
+  <p class="muted">Pantalla base para el parte diario. Proximo paso: migrar la carga/consulta real.</p>
+  <div class="card">
+    <strong>Acciones</strong>
+    <ul>
+      <li>Ver parte por fecha/curso</li>
+      <li>Cargar observaciones por docente</li>
+      <li>Historial de partes</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
+{{end}}

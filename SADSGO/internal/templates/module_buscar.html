@@ -1,0 +1,30 @@
+{{define "module_buscar"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>{{.Modulo}} - Buscar (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>{{.Modulo}} / Buscar</h2>
+  <form method="get" action="/">
+    <input type="hidden" name="m" value="{{.Modulo}}" />
+    <input type="hidden" name="f" value="buscar" />
+    <div class="form-row">
+      <label>Criterio</label>
+      <input type="text" name="q" value="{{.Query}}" placeholder="criterio..." size="40" />
+      <input type="submit" value="Buscar" />
+    </div>
+  </form>
+
+  {{if .Query}}
+  <br>
+  <div class="notice">Busqueda demo: "{{.Query}}". Resultados reales se agregan al migrar este modulo.</div>
+  {{end}}
+</div>
+</body>
+</html>
+{{end}}

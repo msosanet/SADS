@@ -1,0 +1,28 @@
+{{define "login"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Login (SADSGO)</title>
+{{template "shared_styles" .}}
+</head>
+<body>
+<div class="shell" style="max-width:520px;">
+  <h2>Ingreso al sistema</h2>
+  {{if .Error}}<div class="alert">{{.Error}}</div><br>{{end}}
+  <form method="post" action="/login">
+    <div class="form-row">
+      <label>Usuario</label>
+      <input type="text" name="usuario" value="{{.Usuario}}" />
+    </div>
+    <div class="form-row">
+      <label>Clave</label>
+      <input type="password" name="pass" value="{{.Pass}}" />
+    </div>
+    <input type="submit" value="Ingresar" />
+  </form>
+  <p class="muted">Demo: usuario <strong>demo</strong> / clave <strong>demo</strong></p>
+</div>
+</body>
+</html>
+{{end}}

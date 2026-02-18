@@ -1,0 +1,32 @@
+{{define "modules"}}
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Modulos (SADSGO)</title>
+{{template "shared_styles" .}}
+<style>
+.card h4 { margin: 0 0 8px 0; }
+.card a { display: inline-block; margin-right: 8px; }
+</style>
+</head>
+<body>
+{{template "shared_nav" .}}
+<div class="shell">
+  <h2>Modulos</h2>
+  <p class="muted">Paquete minimo: index, buscar, alta, ver.</p>
+  <div class="grid-3">
+    {{range .Modulos}}
+      <div class="card">
+        <h4>{{.}}</h4>
+        <a href="/?m={{.}}&f=index">Index</a>
+        <a href="/?m={{.}}&f=buscar">Buscar</a>
+        <a href="/?m={{.}}&f=alta">Alta</a>
+        <a href="/?m={{.}}&f=ver">Ver</a>
+      </div>
+    {{end}}
+  </div>
+</div>
+</body>
+</html>
+{{end}}

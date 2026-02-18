@@ -1,0 +1,11 @@
+Usuarios de prueba (base_sobral.usuarios)
+--------------------------------------
+- directivo / 123
+- secretario / 123
+- tecnico / 123
+- preceptor / 123
+- secreAlumno / 123
+- secreDocente / 123
+
+Usuario demo original:
+- demo / demo
